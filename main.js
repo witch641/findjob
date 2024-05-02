@@ -66,21 +66,19 @@ async function sendResponseToChatBox(driver, response) {
   }
 }
 
+// 全局变量保存浏览器对象
+let driver;
+
 // 主函数
 async function main(url, browserType) {
   try {
-    // 打开浏览器
-    await openBrowserWithOptions(url, browserType);
-    // 点击登录按钮，并等待登录成功
-    await logIn();
+    // 打开浏览器并直接访问网站
+    driver = await openBrowserWithOptions(url, browserType);
 
     // 开始的索引
     let jobIndex = 10;
 
     while (true) {
-      // 获取单例的浏览器窗口
-      let driver = getDriver();
-
       // 获取对应下标的职位描述
       const jobDescription = await getJobDescriptionByIndex(jobIndex);
       console.log(`职位描述信息/n：${jobDescription}`);
@@ -114,8 +112,14 @@ async function main(url, browserType) {
     }
   } catch (error) {
     console.error(`发生错误: ${error}`);
+  } finally {
+    // 最后关闭浏览器
+    if (driver) {
+      await driver.quit();
+    }
   }
 }
+
 
 const url =
   "https://www.zhipin.com/web/geek/job-recommend?salary=403";
