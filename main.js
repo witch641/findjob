@@ -75,7 +75,7 @@ async function main(url, browserType) {
     await logIn();
 
     // 开始的索引
-    let jobIndex = 1;
+    let jobIndex = 10;
 
     while (true) {
       // 获取单例的浏览器窗口
